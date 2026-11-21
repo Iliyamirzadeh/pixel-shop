@@ -22,3 +22,7 @@
     @apply bg-pixel text-ink;
   }
 }
+@utility pixel-grid {
+  background-image: radialGradient(var(--color-line) 1px, transparent  1px);
+  background-size: 18px 18px;
+}

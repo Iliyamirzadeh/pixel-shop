@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^7.0.8",
     "@tailwindcss/vite": "^4.3.5",
     "@tanstack/react-query": "^5.108.2",
+    "@tanstack/react-query-devtools": "^5.108.2",
     "axios": "^1.21.1",
     "lucide-react": "^1.77.0",
     "react": "^19.3.1",
