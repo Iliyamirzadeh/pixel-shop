@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Gamepad2, Menu, ShoppingCart, X } from 'lucide-react'
+import { Gamepad2, LogOut, Menu, ShoppingCart, User, X } from 'lucide-react'
+import { useAuth } from '../hooks/useAuth'
 
 const links = [
     { to: '/', label: 'خانه', end: true },
@@ -8,13 +9,13 @@ const links = [
 ]
 
 function linkClass({ isActive }) {
-    return `rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-        isActive ? 'bg-raised text-pixel' : 'text-muted hover:text-snow'
-    }`
+    return `rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive ? 'bg-raised text-pixel' : 'text-muted hover:text-snow'
+        }`
 }
 
 function Navbar() {
     const [open, setOpen] = useState(false)
+    const { user, logout } = useAuth()
 
     return (
         <header className="sticky top-0 z-50 border-b border-line bg-ink/80 backdrop-blur-lg">
@@ -42,12 +43,28 @@ function Navbar() {
                     >
                         <ShoppingCart size={20} />
                     </Link>
-                    <Link
-                        to="/login"
-                        className="hidden rounded-lg bg-pixel px-4 py-2 text-sm font-bold text-ink transition hover:brightness-110 md:block"
-                    >
-                        ورود
-                    </Link>
+                    {user ? (
+                        <div className="hidden items-center gap-1 md:flex">
+                            <span className="flex items-center gap-2 px-2 text-sm text-muted">
+                                <User size={16} />
+                                {user.name}
+                            </span>
+                            <button
+                                onClick={logout}
+                                aria-label="خروج"
+                                className="grid size-10 place-items-center rounded-lg text-muted transition-colors hover:bg-raised hover:text-red-400"
+                            >
+                                <LogOut size={18} />
+                            </button>
+                        </div>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="hidden rounded-lg bg-pixel px-4 py-2 text-sm font-bold text-ink transition hover:brightness-110 md:block"
+                        >
+                            ورود
+                        </Link>
+                    )}
                     <button
                         onClick={() => setOpen(!open)}
                         aria-label="منو"
@@ -71,13 +88,28 @@ function Navbar() {
                             {link.label}
                         </NavLink>
                     ))}
-                    <Link
-                        to="/login"
-                        onClick={() => setOpen(false)}
-                        className="mt-1 rounded-lg bg-pixel px-4 py-2 text-center text-sm font-bold text-ink"
-                    >
-                        ورود
-                    </Link>
+                    {user ? (
+                        <div className="hidden items-center gap-1 md:flex">
+                            <span className="flex items-center gap-2 px-2 text-sm text-muted">
+                                <User size={16} />
+                                {user.name}
+                            </span>
+                            <button
+                                onClick={logout}
+                                aria-label="خروج"
+                                className="grid size-10 place-items-center rounded-lg text-muted transition-colors hover:bg-raised hover:text-red-400"
+                            >
+                                <LogOut size={18} />
+                            </button>
+                        </div>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="hidden rounded-lg bg-pixel px-4 py-2 text-sm font-bold text-ink transition hover:brightness-110 md:block"
+                        >
+                            ورود
+                        </Link>
+                    )}
                 </nav>
             )}
         </header>
