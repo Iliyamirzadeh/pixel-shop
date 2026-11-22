@@ -11,7 +11,9 @@ client.interceptors.response.use(
     const message = error.response
       ? 'مشکلی در دریافت اطلاعات از سرور پیش آمد'
       : 'ارتباط با سرور برقرار نشد'
-    return Promise.reject(new Error(message))
+    const friendlyError = new Error(message)
+    friendlyError.status = error.response?.status
+    return Promise.reject(friendlyError)
   }
 )
 

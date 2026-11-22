@@ -6,7 +6,7 @@ import ErrorMessage from './ErrorMessage'
 const gridClass = 'grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
 
 function ProductGrid({ params, skeletonCount = 8 }) {
-  const { data, isPending, isError, error, refetch } = useProducts(params)
+  const { data, isPending, isError, error, refetch, isPlaceholderData } = useProducts(params)
 
   if (isPending) {
     return (
@@ -26,13 +26,13 @@ function ProductGrid({ params, skeletonCount = 8 }) {
     return <p className="py-16 text-center text-muted">محصولی پیدا نشد</p>
   }
 
-  return (
-    <div className={gridClass}>
-      {data.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
-  )
+return (
+  <div className={`${gridClass} transition-opacity ${isPlaceholderData ? 'opacity-50' : ''}`}>
+    {data.map((product) => (
+      <ProductCard key={product.id} product={product} />
+    ))}
+  </div>
+)
 }
 
 export default ProductGrid

@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
-import { Gamepad2, Star } from 'lucide-react'
-import { categoryIcons } from '../lib/categoryIcons'
+import { Star } from 'lucide-react'
+import ProductVisual from './ProductVisual'
 import { formatPrice } from '../lib/format'
 
 function ProductCard({ product }) {
-  const Icon = categoryIcons[product.category] ?? Gamepad2
   const discount = product.oldPrice
     ? Math.round((1 - product.price / product.oldPrice) * 100)
     : 0
@@ -14,19 +13,8 @@ function ProductCard({ product }) {
       to={`/products/${product.id}`}
       className="group overflow-hidden rounded-2xl border border-line bg-surface transition duration-300 hover:-translate-y-1 hover:border-pixel/50"
     >
-      <div className="pixel-grid relative grid aspect-[4/3] place-items-center overflow-hidden bg-ink">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 50% 45%, ${product.accent}45, transparent 70%)`,
-          }}
-        />
-        <span
-          className="relative grid size-24 place-items-center rounded-2xl border bg-ink/60 backdrop-blur transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-110"
-          style={{ color: product.accent, borderColor: `${product.accent}55` }}
-        >
-          <Icon size={44} strokeWidth={1.5} />
-        </span>
+      <div className="relative">
+        <ProductVisual product={product} />
         {discount > 0 && (
           <span className="absolute start-3 top-3 rounded-md bg-pixel px-2 py-1 text-xs font-black text-ink">
             {discount.toLocaleString('fa-IR')}٪ تخفیف
