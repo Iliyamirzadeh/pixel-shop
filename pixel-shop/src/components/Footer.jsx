@@ -1,57 +1,100 @@
 import { Link } from 'react-router-dom'
-import { Gamepad2 } from 'lucide-react'
+import { Clock, Gamepad2, Mail } from 'lucide-react'
+import { useCategories } from '../hooks/useCategories'
+import NewsletterForm from './NewsletterForm'
+
+const quickLinks = [
+  { to: '/products', label: 'همه‌ی محصولات' },
+  { to: '/cart', label: 'سبد خرید' },
+  { to: '/login', label: 'ورود به حساب' },
+  { to: '/register', label: 'ثبت‌نام' },
+]
+
+function FooterTitle({ children }) {
+  return (
+    <h3 className="flex items-center gap-2 font-bold">
+      <span className="size-1.5 bg-pixel" />
+      {children}
+    </h3>
+  )
+}
 
 function Footer() {
-    return (
-        <footer className="border-t border-line bg-surface">
-            <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-3">
-                <div>
-                    <div className="flex items-center gap-2.5">
-                        <span className="grid size-9 place-items-center rounded-lg bg-pixel text-ink">
-                            <Gamepad2 size={20} strokeWidth={2.5} />
-                        </span>
-                        <span className="text-lg font-black">پیکسل شاپ</span>
-                    </div>
-                    <p className="mt-4 text-sm leading-7 text-muted">
-                        مرجع خرید کنسول، لوازم جانبی و تجهیزات گیمینگ اورجینال با ضمانت اصالت و ارسال سریع.
-                    </p>
-                </div>
+  const { data: categories } = useCategories()
 
-                <div>
-                    <h3 className="font-bold">دسترسی سریع</h3>
-                    <ul className="mt-4 space-y-3 text-sm text-muted">
-                        <li>
-                            <Link to="/products" className="transition-colors hover:text-pixel">
-                                همه‌ی محصولات
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/cart" className="transition-colors hover:text-pixel">
-                                سبد خرید
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/login" className="transition-colors hover:text-pixel">
-                                ورود به حساب
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+  return (
+    <footer className="border-t border-line bg-surface">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <Link to="/" className="flex items-center gap-2.5">
+            <span className="grid size-8 place-items-center rounded-md bg-pixel text-ink">
+              <Gamepad2 size={18} strokeWidth={2.5} />
+            </span>
+            <span className="font-black">پیکسل شاپ</span>
+          </Link>
+          <p className="mt-4 text-sm leading-7 text-muted">
+            مرجع خرید کنسول، لوازم جانبی و تجهیزات گیمینگ اورجینال با ضمانت اصالت و ارسال سریع.
+          </p>
+          <ul className="mt-5 space-y-3 text-sm text-muted">
+            <li className="flex items-center gap-2.5">
+              <Clock size={16} className="text-pixel" />
+              همه‌روزه ۹ تا ۲۱
+            </li>
+            <li className="flex items-center gap-2.5">
+              <Mail size={16} className="text-pixel" />
+              <span dir="ltr">support@pixelshop.ir</span>
+            </li>
+          </ul>
+        </div>
 
-                <div>
-                    <h3 className="font-bold">پشتیبانی</h3>
-                    <ul className="mt-4 space-y-3 text-sm text-muted">
-                        <li>همه‌روزه ۹ تا ۲۱</li>
-                        <li>support@pixelshop.ir</li>
-                    </ul>
-                </div>
-            </div>
+        <div>
+          <FooterTitle>دسترسی سریع</FooterTitle>
+          <ul className="mt-5 space-y-3 text-sm text-muted">
+            {quickLinks.map((link) => (
+              <li key={link.to}>
+                <Link to={link.to} className="transition-colors hover:text-pixel">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-            <div className="border-t border-line py-5 text-center text-xs text-muted">
-                تمامی حقوق برای پیکسل شاپ محفوظ است
-            </div>
-        </footer>
-    )
+        <div>
+          <FooterTitle>دسته‌بندی‌ها</FooterTitle>
+          <ul className="mt-5 space-y-3 text-sm text-muted">
+            {categories?.map((category) => (
+              <li key={category.id}>
+                <Link
+                  to={`/products?category=${category.slug}`}
+                  className="transition-colors hover:text-pixel"
+                >
+                  {category.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <FooterTitle>خبرنامه</FooterTitle>
+          <p className="mb-4 mt-5 text-sm leading-7 text-muted">
+            از تخفیف‌ها و محصولات جدید زودتر از همه باخبر شو.
+          </p>
+          <NewsletterForm />
+        </div>
+      </div>
+
+      <div className="border-t border-line">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-muted sm:flex-row">
+          <p>تمامی حقوق برای پیکسل شاپ محفوظ است</p>
+          <p dir="ltr" className="tech-label">
+            React · Tailwind · TanStack Query
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
 }
 
 export default Footer

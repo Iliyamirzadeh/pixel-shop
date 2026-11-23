@@ -167,5 +167,6 @@
     }
   ], 
   "users": [],
-  "orders" : []
+  "orders" : [],
+  "subscribers": []
 }

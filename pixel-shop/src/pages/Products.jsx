@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { useCategories } from '../hooks/useCategories'
@@ -13,11 +13,10 @@ const sortMap = {
 }
 
 function pillClass(active) {
-  return `rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-    active
+  return `rounded-full border px-4 py-2 text-sm font-medium transition-colors ${active
       ? 'border-pixel bg-pixel text-ink'
       : 'border-line bg-surface text-muted hover:border-pixel/50 hover:text-snow'
-  }`
+    }`
 }
 
 function Products() {
@@ -29,10 +28,18 @@ function Products() {
   const query = searchParams.get('q') || undefined
 
   const [search, setSearch] = useState(query ?? '')
+  const [seenQuery, setSeenQuery] = useState(query)
   const debouncedSearch = useDebounce(search)
+  const lastSynced = useRef(debouncedSearch)
+
+  if (query !== seenQuery) {
+    setSeenQuery(query)
+    setSearch(query ?? '')
+  }
 
   useEffect(() => {
-    if ((searchParams.get('q') ?? '') === debouncedSearch) return
+    if (lastSynced.current === debouncedSearch) return
+    lastSynced.current = debouncedSearch
 
     setSearchParams(
       (prev) => {
@@ -46,7 +53,7 @@ function Products() {
       },
       { replace: true }
     )
-  }, [debouncedSearch, searchParams, setSearchParams])
+  }, [debouncedSearch, setSearchParams])
 
   function updateParam(key, value) {
     setSearchParams((prev) => {
@@ -102,14 +109,13 @@ function Products() {
             <button onClick={() => updateParam('category', '')} className={pillClass(!category)}>
               همه
             </button>
-            {categories.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => updateParam('category', item.slug)}
-                className={pillClass(category === item.slug)}
-              >
-                {item.title}
-              </button>
+            {categories.map((item) => (<button
+              key={item.id}
+              onClick={() => updateParam('category', item.slug)}
+              className={pillClass(category === item.slug)}
+            >
+              {item.title}
+            </button>
             ))}
           </div>
         )}
