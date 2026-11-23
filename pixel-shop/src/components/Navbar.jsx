@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Gamepad2, LogOut, Menu, ShoppingCart, User, X } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
+import { useCart } from '../hooks/useCart'
 
 const links = [
     { to: '/', label: 'خانه', end: true },
@@ -16,6 +17,7 @@ function linkClass({ isActive }) {
 function Navbar() {
     const [open, setOpen] = useState(false)
     const { user, logout } = useAuth()
+    const { totalCount } = useCart()
 
     return (
         <header className="sticky top-0 z-50 border-b border-line bg-ink/80 backdrop-blur-lg">
@@ -39,9 +41,14 @@ function Navbar() {
                     <Link
                         to="/cart"
                         aria-label="سبد خرید"
-                        className="grid size-10 place-items-center rounded-lg transition-colors hover:bg-raised"
+                        className="relative grid size-10 place-items-center rounded-lg transition-colors hover:bg-raised"
                     >
                         <ShoppingCart size={20} />
+                        {totalCount > 0 && (
+                            <span className="absolute -end-1 -top-1 grid min-w-5 place-items-center rounded-full bg-pixel px-1 text-[11px] font-black leading-5 text-ink">
+                                {totalCount.toLocaleString('fa-IR')}
+                            </span>
+                        )}
                     </Link>
                     {user ? (
                         <div className="hidden items-center gap-1 md:flex">

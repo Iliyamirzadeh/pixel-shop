@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowRight, Check, ShieldCheck, ShoppingCart, Star, Truck } from 'lucide-react'
 import { useProduct } from '../hooks/useProduct'
+import { useCart } from '../hooks/useCart'
 import ProductVisual from '../components/ProductVisual'
 import ErrorMessage from '../components/ErrorMessage'
 import { formatPrice } from '../lib/format'
@@ -23,6 +24,7 @@ function ProductDetailSkeleton() {
 function ProductDetail() {
   const { id } = useParams()
   const { data: product, isPending, isError, error, refetch } = useProduct(id)
+  const { items, addItem } = useCart()
 
   if (isPending) {
     return <ProductDetailSkeleton />
@@ -38,6 +40,9 @@ function ProductDetail() {
   const discount = product.oldPrice
     ? Math.round((1 - product.price / product.oldPrice) * 100)
     : 0
+
+  const inCart = items.find((item) => item.id === product.id)?.quantity ?? 0
+  const reachedLimit = inCart >= product.stock
 
   return (
     <div>
@@ -92,13 +97,24 @@ function ProductDetail() {
             </p>
 
             <button
-              disabled={product.stock === 0}
+              onClick={() => addItem(product)}
+              disabled={product.stock === 0 || reachedLimit}
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-pixel py-3.5 font-bold text-ink transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
-            >
+              >
               <ShoppingCart size={20} />
-              افزودن به سبد خرید
+              {reachedLimit && product.stock > 0 ? 'به سقف موجودی رسیدی' : 'افزودن به سبد خرید'}
             </button>
+
+            {inCart > 0 && (
+              <Link
+                to="/cart"
+                className="mt-3 block text-center text-sm text-muted transition-colors hover:text-pixel"
+              >
+                {inCart.toLocaleString('fa-IR')} عدد از این محصول تو سبد توئه، مشاهده سبد
+              </Link>
+            )}
           </div>
+
           <div className="mt-6 grid gap-3 text-sm text-muted sm:grid-cols-2">
             <div className="flex items-center gap-3">
               <ShieldCheck size={20} className="text-pixel" />
@@ -115,4 +131,4 @@ function ProductDetail() {
   )
 }
 
-export default ProductDetail      
+export default ProductDetail    
