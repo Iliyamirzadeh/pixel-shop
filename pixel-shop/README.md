@@ -1,16 +1,67 @@
-# React + Vite
+# Pixel Shop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Persian (RTL) online store for gaming gear, built to practice a modern React data-fetching stack on a realistic project.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Product listing with category filter, search and sorting, all stored in the URL so links are shareable
+- Product detail page with stock-aware add to cart
+- Shopping cart saved in localStorage and validated when loaded
+- Register and login with form validation
+- Checkout with a shipping form (Persian digits are normalized) and an order success page
+- Flash-sale section with a live countdown, newsletter form and a fully responsive layout
 
-## React Compiler
+## Tech stack and where it is used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Tool | Used for |
+| --- | --- |
+| React 19 and Vite | UI and build tooling |
+| React Router | Nested layouts, dynamic routes, protected routes, URL search params |
+| TanStack Query | Server state: queries, mutations, caching, select |
+| Axios | API client with a shared instance and an error interceptor |
+| React Hook Form and Zod | Forms and validation. Zod also validates API responses and localStorage data |
+| Tailwind CSS 4 | Styling with design tokens defined in @theme |
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+bash
+npm install
+npm start
+
+
+npm start runs the mock API (json-server on port 3001) and the Vite dev server together. Open http://localhost:5173.
+
+The mock database is created from db.seed.json on the first run. Run npm run reset-db to restore it. To change the API address, copy .env.example to .env.
+
+## Scripts
+
+| Script | Description |
+| --- | --- |
+| npm start | Mock API and dev server together |
+| npm run dev | Vite dev server only |
+| npm run server | Mock API only |
+| npm run reset-db | Restore the mock database from the seed file |
+| npm run build | Production build |
+| npm run lint | ESLint |
+
+## Project structure
+
+
+src/
+  api/         Axios client and request functions
+  schemas/     Zod schemas (forms, API responses, storage)
+  hooks/       TanStack Query hooks and small custom hooks
+  context/     Cart and auth state
+  components/  Reusable UI and home page sections
+  pages/       Route components
+  layouts/     Main layout with navbar and footer
+  lib/         Formatting helpers and static data
+  assets/      Hero image and product photos (src/assets/products/<id>.png)
+public/        Logo and favicon
+
+
+## Notes
+
+- The backend is a json-server mock. Authentication is simulated for learning: passwords are stored as plain text in the mock database. A real backend must hash passwords and issue tokens.
+- Order totals are calculated on the client. A real backend must recalculate them from its own prices.
+- Product photos are matched to products by id.
