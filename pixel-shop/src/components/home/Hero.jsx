@@ -19,7 +19,7 @@ const assurances = [
 function Hero() {
   return (
     <section className="relative">
-      <div className="pointer-events-none absolute -end-24 -top-24 size-[28rem] rounded-full bg-pixel/10 blur-3xl" />
+
 
       <div className="relative grid items-center gap-12 lg:grid-cols-2">
         <div>

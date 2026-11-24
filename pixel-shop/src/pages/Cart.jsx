@@ -4,8 +4,10 @@ import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
 import { categoryIcons } from '../lib/categoryIcons'
 import { formatPrice } from '../lib/format'
+import { getProductImage } from '../lib/productImages'
 
 function Cart() {
+
   const { user } = useAuth()
   const { items, totalCount, totalPrice, increaseItem, decreaseItem, removeItem, clearCart } =
     useCart()
@@ -44,6 +46,7 @@ function Cart() {
         <ul className="space-y-4 lg:col-span-2">
           {items.map((item) => {
             const Icon = categoryIcons[item.category] ?? Gamepad2
+            const image = getProductImage(item.id)
 
             return (
               <li
@@ -52,10 +55,15 @@ function Cart() {
               >
                 <Link
                   to={`/products/${item.id}`}
-                  className="pixel-grid grid size-24 shrink-0 place-items-center rounded-xl border bg-ink"
-                  style={{ color: item.accent, borderColor: `${item.accent}55` }}
+                  className={`grid size-24 shrink-0 place-items-center overflow-hidden rounded-xl border ${image ? 'border-line bg-white' : 'pixel-grid bg-ink'
+                    }`}
+                  style={image ? undefined : { color: item.accent, borderColor: `${item.accent}55` }}
                 >
-                  <Icon size={36} strokeWidth={1.5} />
+                  {image ? (
+                    <img src={image} alt={item.title} className="size-full object-contain" />
+                  ) : (
+                    <Icon size={36} strokeWidth={1.5} />
+                  )}
                 </Link>
 
                 <div className="flex flex-1 flex-col justify-between gap-3">
@@ -91,7 +99,7 @@ function Cart() {
                         {item.quantity.toLocaleString('fa-IR')}
                       </span>
                       <button
-                        onClick={() => increaseItem(item.id)}disabled={item.quantity >= item.stock}
+                        onClick={() => increaseItem(item.id)} disabled={item.quantity >= item.stock}
                         aria-label="اضافه کردن"
                         className="grid size-9 place-items-center transition-colors hover:text-pixel disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-snow"
                       >
@@ -105,45 +113,48 @@ function Cart() {
                     </p>
                   </div>
                 </div>
-    </li>
-  )
-})}
+              </li>
+            )
+          })}
         </ul >
 
-  <aside className="h-fit rounded-2xl border border-line bg-surface p-6 lg:sticky lg:top-24">
-    <h2 className="text-lg font-black">خلاصه سفارش</h2>
+        <aside className="h-fit rounded-2xl border border-line bg-surface p-6 lg:sticky lg:top-24">
+          <h2 className="text-lg font-black">خلاصه سفارش</h2>
 
-    <dl className="mt-6 space-y-4 text-sm">
-      <div className="flex justify-between">
-        <dt className="text-muted">تعداد کالا</dt>
-        <dd>{totalCount.toLocaleString('fa-IR')}</dd>
-      </div>
-      <div className="flex justify-between">
-        <dt className="text-muted">هزینه ارسال</dt>
-        <dd className="text-pixel">رایگان</dd>
-      </div>
-      <div className="flex justify-between border-t border-line pt-4 text-base">
-        <dt className="font-bold">مبلغ قابل پرداخت</dt>
-        <dd className="font-black">
-          {formatPrice(totalPrice)}
-          <span className="ms-1 text-xs font-normal text-muted">تومان</span>
-        </dd>
-      </div>
-    </dl>
+          <dl className="mt-6 space-y-4 text-sm">
+            <div className="flex justify-between">
+              <dt className="text-muted">تعداد کالا</dt>
+              <dd>{totalCount.toLocaleString('fa-IR')}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted">هزینه ارسال</dt>
+              <dd className="text-pixel">رایگان</dd>
+            </div>
+            <div className="flex justify-between border-t border-line pt-4 text-base">
+              <dt className="font-bold">مبلغ قابل پرداخت</dt>
+              <dd className="font-black">
+                {formatPrice(totalPrice)}
+                <span className="ms-1 text-xs font-normal text-muted">تومان</span>
+              </dd>
+            </div>
+          </dl>
 
-    {user ? (
-      <button className="mt-6 w-full rounded-xl bg-pixel py-3.5 font-bold text-ink transition hover:brightness-110">
-        ادامه فرآیند خرید
-      </button>
-    ) : (
-      <Link
-        to="/login?redirect=/cart"
-        className="mt-6 block w-full rounded-xl bg-pixel py-3.5 text-center font-bold text-ink transition hover:brightness-110"
-      >
-        برای ادامه وارد شو
-      </Link>
-    )}
-  </aside>
+          {user ? (
+            <Link
+              to="/checkout"
+              className="mt-6 block w-full rounded-xl bg-pixel py-3.5 text-center font-bold text-ink transition hover:brightness-110"
+            >
+              ادامه فرآیند خرید
+            </Link>
+          ) : (
+            <Link
+              to="/login?redirect=/checkout"
+              className="mt-6 block w-full rounded-xl bg-pixel py-3.5 text-center font-bold text-ink transition hover:brightness-110"
+            >
+              برای ادامه وارد شو
+            </Link>
+          )}
+        </aside>
       </div >
     </div >
   )

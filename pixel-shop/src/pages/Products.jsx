@@ -4,6 +4,7 @@ import { Search } from 'lucide-react'
 import { useCategories } from '../hooks/useCategories'
 import { useDebounce } from '../hooks/useDebounce'
 import ProductGrid from '../components/ProductGrid'
+import SortDropdown from '../components/SortDropdown'
 
 const sortMap = {
   'price-asc': { _sort: 'price', _order: 'asc' },
@@ -11,6 +12,14 @@ const sortMap = {
   rating: { _sort: 'rating', _order: 'desc' },
   popular: { _sort: 'reviews', _order: 'desc' },
 }
+
+const sortOptions = [
+  { value: '', label: 'مرتب‌سازی پیش‌فرض' },
+  { value: 'popular', label: 'پربازدیدترین' },
+  { value: 'rating', label: 'بیشترین امتیاز' },
+  { value: 'price-asc', label: 'ارزان‌ترین' },
+  { value: 'price-desc', label: 'گران‌ترین' },
+]
 
 function pillClass(active) {
   return `rounded-full border px-4 py-2 text-sm font-medium transition-colors ${active
@@ -91,17 +100,11 @@ function Products() {
               className="w-full rounded-xl border border-line bg-surface py-3 pe-4 ps-11 text-sm outline-none transition-colors placeholder:text-muted focus:border-pixel"
             />
           </div>
-          <select
+          <SortDropdown
             value={sort}
-            onChange={(event) => updateParam('sort', event.target.value)}
-            className="rounded-xl border border-line bg-surface px-4 py-3 text-sm outline-none transition-colors focus:border-pixel"
-          >
-            <option value="">مرتب‌سازی پیش‌فرض</option>
-            <option value="popular">پربازدیدترین</option>
-            <option value="rating">بیشترین امتیاز</option>
-            <option value="price-asc">ارزان‌ترین</option>
-            <option value="price-desc">گران‌ترین</option>
-          </select>
+            options={sortOptions}
+            onChange={(nextSort) => updateParam('sort', nextSort)}
+          />
         </div>
 
         {categories && (

@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { Gamepad2, Headphones, Mouse } from 'lucide-react'
+import showcaseImage from '../../assets/showcase.jpg'
 
 const callouts = [
   { icon: Gamepad2, text: 'CONSOLE // 4K 120FPS', position: 'start-4 top-6', delay: '0s' },
@@ -14,8 +14,6 @@ const specs = [
 ]
 
 function HeroShowcase() {
-  const [imageFailed, setImageFailed] = useState(false)
-
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-surface">
       <div className="flex items-center justify-between border-b border-line px-4 py-3">
@@ -29,16 +27,11 @@ function HeroShowcase() {
       </div>
 
       <div className="pixel-grid relative aspect-[4/3] overflow-hidden bg-ink">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,106,0,0.18),transparent_65%)]" />
-
-        {!imageFailed && (
-          <img
-            src="/images/hero.jpg"
-            alt="تجهیزات گیمینگ پیکسل شاپ"
-            onError={() => setImageFailed(true)}
-            className="absolute inset-0 size-full object-cover"
-          />
-        )}
+        <img
+          src={showcaseImage}
+          alt="تجهیزات گیمینگ پیکسل شاپ"
+          className="absolute inset-0 size-full object-cover"
+        />
 
         {callouts.map((item) => (
           <div

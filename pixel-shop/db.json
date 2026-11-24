@@ -1,12 +1,40 @@
 {
   "categories": [
-    { "id": 1, "slug": "console", "title": "کنسول" },
-    { "id": 2, "slug": "controller", "title": "دسته بازی" },
-    { "id": 3, "slug": "mouse", "title": "ماوس" },
-    { "id": 4, "slug": "keyboard", "title": "کیبورد" },
-    { "id": 5, "slug": "headset", "title": "هدست" },
-    { "id": 6, "slug": "chair", "title": "صندلی گیمینگ" },
-    { "id": 7, "slug": "monitor", "title": "مانیتور" }
+    {
+      "id": 1,
+      "slug": "console",
+      "title": "کنسول"
+    },
+    {
+      "id": 2,
+      "slug": "controller",
+      "title": "دسته بازی"
+    },
+    {
+      "id": 3,
+      "slug": "mouse",
+      "title": "ماوس"
+    },
+    {
+      "id": 4,
+      "slug": "keyboard",
+      "title": "کیبورد"
+    },
+    {
+      "id": 5,
+      "slug": "headset",
+      "title": "هدست"
+    },
+    {
+      "id": 6,
+      "slug": "chair",
+      "title": "صندلی گیمینگ"
+    },
+    {
+      "id": 7,
+      "slug": "monitor",
+      "title": "مانیتور"
+    }
   ],
   "products": [
     {
@@ -165,8 +193,49 @@
       "accent": "#3b82f6",
       "description": "مانیتور ۲۷ اینچ با رفرش ریت بالا و زمان پاسخ‌دهی ۱ میلی‌ثانیه برای حرکت‌های سریع."
     }
-  ], 
-  "users": [],
-  "orders" : [],
-  "subscribers": []
+  ],
+  "users": [
+    {
+      "name": "ایلیا میرزاده نوشهر",
+      "email": "iliyamirzadeh@gmail.com",
+      "password": "iliyamz10",
+      "id": 1
+    }
+  ],
+  "orders": [
+    {
+      "userId": 1,
+      "createdAt": "2026-11-23T19:57:18.492Z",
+      "status": "pending",
+      "totalPrice": 53600000,
+      "items": [
+        {
+          "id": 2,
+          "title": "ایکس‌باکس سری ایکس",
+          "brand": "Microsoft",
+          "category": "console",
+          "price": 26800000,
+          "accent": "#22c55e",
+          "stock": 4,
+          "quantity": 2
+        }
+      ],
+      "shipping": {
+        "fullName": "ایلیا میرزاده نوشهر",
+        "phone": "09158581231",
+        "city": "خراسان رضوی",
+        "postalCode": "9187137615",
+        "address": "خراسان رضوی مشهد قاسم اباد ادیب 42/2 پلاک 19 زنگ 1",
+        "note": ""
+      },
+      "id": 1
+    }
+  ],
+  "subscribers": [
+    {
+      "email": "iliyamirzadeh@gmail.com",
+      "createdAt": "2026-11-24T13:38:20.078Z",
+      "id": 1
+    }
+  ]
 }

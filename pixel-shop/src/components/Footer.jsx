@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { Clock, Gamepad2, Mail } from 'lucide-react'
+import { Clock, Mail } from 'lucide-react'
 import { useCategories } from '../hooks/useCategories'
 import NewsletterForm from './NewsletterForm'
+import Logo from './Logo'
 
 const quickLinks = [
   { to: '/products', label: 'همه‌ی محصولات' },
@@ -26,12 +27,7 @@ function Footer() {
     <footer className="border-t border-line bg-surface">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Link to="/" className="flex items-center gap-2.5">
-            <span className="grid size-8 place-items-center rounded-md bg-pixel text-ink">
-              <Gamepad2 size={18} strokeWidth={2.5} />
-            </span>
-            <span className="font-black">پیکسل شاپ</span>
-          </Link>
+          <Logo className="h-10"/>
           <p className="mt-4 text-sm leading-7 text-muted">
             مرجع خرید کنسول، لوازم جانبی و تجهیزات گیمینگ اورجینال با ضمانت اصالت و ارسال سریع.
           </p>
