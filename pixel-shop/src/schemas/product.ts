@@ -19,3 +19,6 @@ export const categorySchema = z.object({
   slug: z.string(),
   title: z.string(),
 })
+
+export type Product = z.infer<typeof productSchema>
+export type Category = z.infer<typeof categorySchema>

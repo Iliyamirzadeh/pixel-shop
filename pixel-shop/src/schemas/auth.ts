@@ -28,3 +28,6 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.string(),
 })
+export type User = z.infer<typeof userSchema>
+export type LoginValues = z.infer<typeof loginSchema>
+export type RegisterValues = z.infer<typeof registerSchema>

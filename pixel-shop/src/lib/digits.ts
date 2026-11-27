@@ -1,8 +1,8 @@
 const persianDigits = '۰۱۲۳۴۵۶۷۸۹'
 const arabicDigits = '٠١٢٣٤٥٦٧٨٩'
 
-export function toEnglishDigits(value) {
+export function toEnglishDigits(value: string) {
   return value
-    .replace(/[۰-۹]/g, (digit) => persianDigits.indexOf(digit))
-    .replace(/[٠-٩]/g, (digit) => arabicDigits.indexOf(digit))
+    .replace(/[۰-۹]/g, (digit) => String(persianDigits.indexOf(digit)))
+    .replace(/[٠-٩]/g, (digit) => String(arabicDigits.indexOf(digit)))
 }

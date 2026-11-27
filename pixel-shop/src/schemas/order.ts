@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { cartSchema } from './cart'
 import { toEnglishDigits } from '../lib/digits'
 
-function digitsField(pattern, message) {
+function digitsField(pattern: RegExp, message: string) {
   return z
     .string()
     .trim()
@@ -28,3 +28,5 @@ export const orderSchema = z.object({
   items: cartSchema,
   shipping: checkoutSchema,
 })
+export type Order = z.infer<typeof orderSchema>
+export type CheckoutValues = z.infer<typeof checkoutSchema>

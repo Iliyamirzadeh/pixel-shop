@@ -1,4 +1,9 @@
-export const categoryMeta = {
+type CategoryMeta = {
+  tag: string
+  text: string
+}
+
+export const categoryMeta: Record<string, CategoryMeta> = {
   console: {
     tag: '4K // 120FPS',
     text: 'پلی‌استیشن و ایکس‌باکس نسل جدید با SSD فوق‌سریع و تجربه‌ی بدون لودینگ',
